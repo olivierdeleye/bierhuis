@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import be.vdab.valueobjects.Adres;
@@ -25,15 +26,17 @@ public class Brouwer implements Serializable{
 	
 	private String naam;
 	
+	
 	@Embedded
 	private Adres adres;
 
 	private Integer omzet;
 	
 	@OneToMany(mappedBy = "brouwer")
+	@OrderBy("naam")
 	private Set<Bier> bieren;
 	
-	protected Brouwer() {
+	public Brouwer() {
 		
 	}
 	

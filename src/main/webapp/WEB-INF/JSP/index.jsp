@@ -1,19 +1,18 @@
-<%@ page  contentType="text/html" pageEncoding="UTF-8"%>
+<%@page  contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix='fmt' uri='http://java.sun.com/jsp/jstl/fmt'%>
-<%@taglib prefix='security' uri='http://www.springframework.org/security/tags'%> 
 <!DOCTYPE HTML>
 <html lang="${pageContext.response.locale.language}">
 <head>
- <title><fmt:message key='menu'/></title>
+ <title><fmt:message key='welkom'/></title>
  <link rel='stylesheet' href='${pageContext.servletContext.contextPath}/styles/default.css'/>
 </head>
 <body>
-<jsp:include page="menu.jsp"/>
-<h2>Welkom in het huis van de Belgische bieren</h2>
+<jsp:include page="/WEB-INF/JSP/menu.jsp"/>
+<h2><fmt:message key='welkomTekst'/></h2>
 <section>
- <img src='${pageContext.servletContext.contextPath}/images/bierhuis.jpg'/>
+ <img src='${pageContext.servletContext.contextPath}/images/bierhuis.jpg' alt='foto bieren'/>
 </section>
-<fmt:message key='aantalBieren'><fmt:param value='${aantalBieren}'/></fmt:message>
+<h3><fmt:message key='aantalBieren'><fmt:param value='${aantalBieren}'/></fmt:message></h3>
 </body>
 </html>

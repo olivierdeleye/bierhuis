@@ -2,6 +2,7 @@ package be.vdab.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -48,11 +49,11 @@ public class Bier implements Serializable{
 		
 	}
 
-    public Bier(long bierNr, String naam, Brouwer brouwer, Soort soortNr, BigDecimal alcohol, BigDecimal prijs) {
+    public Bier(long bierNr, String naam, Brouwer brouwer, Soort soort, BigDecimal alcohol, BigDecimal prijs) {
 		setBierNr(bierNr);
 		setNaam(naam);
 		setBrouwer(brouwer);
-		setSoort(soortNr);
+		setSoort(soort);
 		setAlcohol(alcohol);
 		setPrijs(prijs);
 	}
@@ -64,6 +65,8 @@ public class Bier implements Serializable{
 		setSoort(soortNr);
 		setAlcohol(alcohol);
 		setPrijs(prijs);
+		this.bestelbonLijnen = new LinkedHashSet<>();
+		
 	}
     
     
@@ -156,9 +159,5 @@ public class Bier implements Serializable{
 		}
 		return true;
 	}
-	
-	
-	
-	
 	
 }

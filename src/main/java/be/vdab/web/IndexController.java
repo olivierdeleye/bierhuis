@@ -10,7 +10,7 @@ import be.vdab.services.BierService;
 
 @Controller
 @RequestMapping("/")
-public class IndexController {
+class IndexController {
 
 	private final BierService bierService;
 	

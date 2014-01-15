@@ -7,4 +7,5 @@ import be.vdab.entities.Bier;
 
 public interface BierDAO extends JpaRepository <Bier, Long>{
 
+	
 }

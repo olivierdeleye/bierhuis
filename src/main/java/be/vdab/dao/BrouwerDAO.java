@@ -6,4 +6,5 @@ import be.vdab.entities.Brouwer;
 
 public interface BrouwerDAO extends JpaRepository <Brouwer, Long>{
 
+
 }

@@ -52,4 +52,6 @@ public class BierServiceImpl implements BierService{
 		public long count() {
 			return bierDAO.count();
 		}
+
+		
 }

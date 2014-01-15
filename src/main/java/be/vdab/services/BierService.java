@@ -10,4 +10,5 @@ public interface BierService {
 	void delete(long bierNr);
 	Iterable<Bier> findAll();
 	long count();
+
 }
