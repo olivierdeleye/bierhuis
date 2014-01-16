@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import be.vdab.services.BierService;
+import be.vdab.valueobjects.BestelbonLijn;
 
 @Controller
 @RequestMapping("/bieren")
@@ -21,12 +22,12 @@ class BierController {
 	}
 	
 	
-	//Details geselecteerd bier
+	//Details geselecteerd bier en Form met Aantal
 	@RequestMapping(method = RequestMethod.GET, params ="bierNr")
-	public ModelAndView read(@RequestParam long bierNr) {
+	public ModelAndView createForm(@RequestParam long bierNr) {
 	  ModelAndView modelAndView = new ModelAndView("brouwers/bierdetails");
 	  modelAndView.addObject("bier", bierService.read(bierNr));
-	  modelAndView.addObject("aantalForm", new AantalForm(null));
+	  modelAndView.addObject("bestelbonLijn", new BestelbonLijn());
 	  return modelAndView;
 	}
 	

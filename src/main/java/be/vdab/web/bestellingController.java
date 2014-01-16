@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 class bestellingController {
 	
 	
-	
-	
-	//VALIDATIE INVOERVAK AANTAL
-    @InitBinder("aantalForm") //naam van de form
-	public void initBinderAantalForm(DataBinder dataBinder) { 
+
+	//VALIDATIE INVOERVAK BESTELDETAILFORM
+    @InitBinder("bestelbonlijn") //naam van de form
+	public void initBinderBestelDetailForm(DataBinder dataBinder) { 
 		dataBinder.initDirectFieldAccess();
 	}
+    
+	//VALIDATIE INVOERVAK BESTELBON
+    @InitBinder("bestelbon") //naam van de form
+	public void initBinderBestelbon(DataBinder dataBinder) { 
+		dataBinder.initDirectFieldAccess();
+	}
+	
 }

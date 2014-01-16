@@ -3,8 +3,8 @@ body {
 }
 
 a:visited{
-   text-decoration: none;
-   outline: 0;
+   text-decoration:none;
+
 }
 
 dt {

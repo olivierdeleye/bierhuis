@@ -2,11 +2,7 @@ package be.vdab.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import be.vdab.valueobjects.BestelbonLijn;
 
 @Entity
 @Table(name = "bieren")
@@ -41,10 +35,6 @@ public class Bier implements Serializable{
 	
 	private BigDecimal prijs;
 	
-	@ElementCollection 
-	@CollectionTable(name = "bestelbonlijnen", joinColumns = @JoinColumn(name = "BierNr"))
-	private Set<BestelbonLijn> bestelbonLijnen;
-	
 	public Bier() {
 		
 	}
@@ -65,13 +55,10 @@ public class Bier implements Serializable{
 		setSoort(soortNr);
 		setAlcohol(alcohol);
 		setPrijs(prijs);
-		this.bestelbonLijnen = new LinkedHashSet<>();
 		
 	}
     
-    
-	
-	public long getBierNr() {
+    public long getBierNr() {
 		return bierNr;
 	}
 
