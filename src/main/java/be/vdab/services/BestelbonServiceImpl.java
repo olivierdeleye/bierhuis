@@ -20,9 +20,8 @@ public class BestelbonServiceImpl implements BestelbonService{
 	
 	@Override
 	@Transactional(readOnly = false)
-	public void create(Bestelbon bestelbon) {
-		bestelbonDAO.save(bestelbon);
-		
+	public Bestelbon create(Bestelbon bestelbon) {
+	    return bestelbonDAO.save(bestelbon);
 	}
 
 	@Override

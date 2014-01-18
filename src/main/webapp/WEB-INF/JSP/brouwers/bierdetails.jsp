@@ -22,16 +22,19 @@
  <dt>Brouwer</dt>
  <dd>${bier.brouwer.naam}</dd>
 </dl><br/>
-<c:url value='/bestelling/toevoegen' var='url'/>
-<form:form action='${url}' method='post' commandName='bestelbonLijn' id='bestelForm'>
+<br/>
+<c:url value='/bestelling/toevoegen' var='url'>
+ <c:param name='bierNr' value='${bier.bierNr}'/>
+</c:url>
+<form:form action='${url}' method='post' commandName='aantalForm' id='aantalForm'>
 <form:hidden path='bierNr' value='${bier.bierNr}'/>
-<form:label path='aantal'><b>Aantal</b></form:label><form:errors path='aantal' cssClass='fout'/>
-<form:input path='aantal' type='number' size='3' maxlength='5' autofocus='autofocus' />
+<form:label path='aantal'><b>Aantal</b>
+<form:errors path='aantal' cssClass='fout'/></form:label>
+<form:input path='aantal' type='number' size="10" autofocus='autofocus' />
 <input type='submit' value='Toevoegen' id = 'bestelKnop'/> 
-<form:errors cssClass='fout' element='div'/>
 </form:form>
 <script>
-document.getElementById('bestelForm').onsubmit= function() {
+document.getElementById('aantalForm').onsubmit= function() {
 document.getElementById('bestelKnop').disabled=true;
 };
 </script>

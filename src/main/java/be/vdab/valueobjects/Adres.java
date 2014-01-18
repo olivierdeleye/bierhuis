@@ -2,10 +2,10 @@ package be.vdab.valueobjects;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import be.vdab.constraints.Postcode;
 
 
 @Embeddable
@@ -16,20 +16,21 @@ public class Adres implements Serializable {
   @NotNull
   @Size(min = 1, max = 50, message = "{Size.tekst}")
   private String straat;
+  
   @NotNull
   @Size(min = 1, max = 7, message = "{Size.tekst}")
   private String huisNr;
   
-  @NotNull
-  @Postcode
+  @Min(1000)
+  @Max(9999)
   private Integer postcode;
   
   @NotNull
   @Size(min = 1, max = 50, message = "{Size.tekst}")
   private String gemeente;
 
-  protected Adres() {
-	  //default constructor voor JPA
+  public Adres() {
+	
   }
   
   public Adres(String straat,String huisNr,Integer postcode,String gemeente) {

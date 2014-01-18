@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 import be.vdab.valueobjects.Adres;
 
@@ -28,6 +29,7 @@ public class Brouwer implements Serializable{
 	
 	
 	@Embedded
+	@Valid
 	private Adres adres;
 
 	private Integer omzet;

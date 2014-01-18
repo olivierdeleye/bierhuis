@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Min;
+import javax.persistence.Transient;
 
 import be.vdab.entities.Bier;
 
@@ -19,15 +19,21 @@ public class BestelbonLijn implements Serializable{
 	@JoinColumn(name = "bierNr")
 	private Bier bier; 
 	
-	@Min(1)
+	
 	private Integer aantal;
+
+	@Transient
+	private BigDecimal prijs;
 	
 	public BestelbonLijn() {
 		
 	}
 	
-	public BestelbonLijn(Integer aantal) {
-		
+	public BestelbonLijn(Bier bier,Integer aantal) {
+		this.bier = bier;
+		this.aantal = aantal;
+		setPrijs(bier, aantal);
+	
 	}
 
 	public Integer getAantal() {
@@ -38,8 +44,21 @@ public class BestelbonLijn implements Serializable{
 		this.aantal = aantal;
 	}
 	
-	public BigDecimal berekenPrijs() {
-		return bier.getPrijs().multiply(new BigDecimal(aantal));
+	
+	public Bier getBier() {
+		return bier;
+	}
+
+	public void setBier(Bier bier) {
+		this.bier = bier;
+	}
+
+	public BigDecimal getPrijs() {
+		return prijs;
+	}
+	
+	public void setPrijs(Bier bier, Integer aantal){
+		prijs = bier.getPrijs().multiply(new BigDecimal(aantal));
 	}
 
 	@Override

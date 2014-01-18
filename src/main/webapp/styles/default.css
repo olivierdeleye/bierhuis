@@ -2,11 +2,6 @@ body {
 	font-family: Verdana;
 }
 
-a:visited{
-   text-decoration:none;
-
-}
-
 dt {
 	font-weight: bold;
 	margin-top: 0.5em;
@@ -37,27 +32,24 @@ div.rij input {
 }
 
 table,th,td {
-	border: 1px solid silver;
+	border: none;
 	border-collapse: collapse;
 }
 
 thead tr, tfoot tr {
-	color: white;
-	background-color: gray;
+	color: black;
+	background-color: white;
+}
+
+td.right {
+	text-align: right;
 }
 
 td {
-	padding-left: 0.2em;
-	padding-right: 0.2em;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
 }
 
-tbody tr:nth-child(even) {
-	background-color: #FAFAFA;
-}
-
-tbody tr:nth-child(odd) {
-	background-color: #E6E6E6;
-}
 
 .fout {
 	color: red;
@@ -73,5 +65,8 @@ tbody tr:nth-child(odd) {
 .zonderbolletjes li {
 	display: inline;
 	margin-right: 0.2em;
+}
+
+ul,li a:visited {
 	text-decoration: none;
 }

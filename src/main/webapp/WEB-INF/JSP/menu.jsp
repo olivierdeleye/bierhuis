@@ -10,9 +10,9 @@
 <body>
 <nav>
  <ul class='zonderbolletjes'>
-  <li><a href="<c:url value='/'/>"><fmt:message key='welkom'/></a></li>
-  <li><a href="<c:url value='/brouwers'/>"><fmt:message key='bierenVanEenBrouwer'/></a></li>
-  <li><a href="<c:url value='/bestellingen'/>"><fmt:message key='winkelWagen'/></a></li>
+  <li><a href="<c:url value='/' />"><fmt:message key='welkom'/></a></li>
+  <li><a href="<c:url value='/brouwers' />"><fmt:message key='bierenVanEenBrouwer'/></a></li>
+  <li><a href="<c:url value='/bestelling/winkelwagen' />"><fmt:message key='winkelWagen'/></a></li>
  </ul>
 </nav>
 </body>

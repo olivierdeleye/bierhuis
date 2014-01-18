@@ -127,14 +127,4 @@ public class Bestelbon implements Serializable{
 		}
 		return true;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
