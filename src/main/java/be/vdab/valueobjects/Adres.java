@@ -23,6 +23,7 @@ public class Adres implements Serializable {
   
   @Min(1000)
   @Max(9999)
+  @NotNull
   private Integer postcode;
   
   @NotNull

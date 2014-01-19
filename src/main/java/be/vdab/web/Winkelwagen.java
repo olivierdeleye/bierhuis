@@ -9,6 +9,6 @@ public interface Winkelwagen {
 
 	Set<BestelbonLijn> getBestelbonLijnen();
 	void addBestelbonLijn(BestelbonLijn bestelbonLijn);
-	void removeRestelbonLijnen();
+	void removeBestelbonLijnen();
 	BigDecimal getEindTotaal();
 }

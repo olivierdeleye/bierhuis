@@ -6,13 +6,14 @@
 <!DOCTYPE HTML>
 <html lang="${pageContext.response.locale.language}">
 <head>
- <title>bestelbon</title>
+ <title><fmt:message key='winkelwagen' /></title>
  <link rel='stylesheet' href='${pageContext.servletContext.contextPath}/styles/default.css'/>
 </head>
 <body>
 <jsp:include page="/WEB-INF/JSP/menu.jsp"/>
-<h2>Winkelwagen</h2>
-<c:if test="${not empty winkelwagen.bestelbonLijnen}">
+<h2><fmt:message key='winkelwagen' /></h2>
+<c:choose>
+<c:when test="${not empty winkelwagen.bestelbonLijnen}">
  <table>
    <thead>
      <tr>
@@ -36,7 +37,6 @@
     </tr>
    </tbody>
  </table>
-</c:if>
 <br/>
 <c:url value='/bestelling/bevestigen' var='url'/>
 <form:form action='${url}' method='post' commandName='bestelbon' id='bestelbonForm'>
@@ -48,7 +48,7 @@
 <form:input path='adres.straat'/>
 <form:label path='adres.huisNr'><b>Huisnr.</b>
 <form:errors path='adres.huisNr' cssClass='fout'/></form:label>
-<form:input path='adres.huisNr' type='number'/>
+<form:input path='adres.huisNr' />
 <form:label path='adres.postcode'><b>Postcode</b>
 <form:errors path='adres.postcode' cssClass='fout'/>
 </form:label>
@@ -65,5 +65,8 @@ document.getElementById('bestelbonForm').onsubmit= function() {
 document.getElementById('bestelKnop').disabled=true;
 };
 </script>
+</c:when>
+<c:otherwise><h3><fmt:message key="winkelwagenLeeg" /></h3></c:otherwise>
+</c:choose>
 </body>
 </html>

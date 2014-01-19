@@ -18,8 +18,6 @@ public class BestelbonLijn implements Serializable{
 	@ManyToOne // mapping met Entity bier
 	@JoinColumn(name = "bierNr")
 	private Bier bier; 
-	
-	
 	private Integer aantal;
 
 	@Transient
@@ -29,11 +27,10 @@ public class BestelbonLijn implements Serializable{
 		
 	}
 	
-	public BestelbonLijn(Bier bier,Integer aantal) {
-		this.bier = bier;
-		this.aantal = aantal;
-		setPrijs(bier, aantal);
-	
+	public BestelbonLijn(Bier bier, Integer aantal) {
+		setBier(bier);
+		setAantal(aantal);
+		setPrijs();
 	}
 
 	public Integer getAantal() {
@@ -57,7 +54,7 @@ public class BestelbonLijn implements Serializable{
 		return prijs;
 	}
 	
-	public void setPrijs(Bier bier, Integer aantal){
+	public void setPrijs(){
 		prijs = bier.getPrijs().multiply(new BigDecimal(aantal));
 	}
 

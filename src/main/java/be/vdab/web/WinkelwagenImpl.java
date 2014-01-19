@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import be.vdab.valueobjects.BestelbonLijn;
 
 @Component
-@Scope(value="session", proxyMode= ScopedProxyMode.INTERFACES)
+@Scope(value ="session", proxyMode = ScopedProxyMode.INTERFACES)
 public class WinkelwagenImpl implements Winkelwagen, Serializable{
 
 	private static final long serialVersionUID=1L;
@@ -29,16 +29,17 @@ public class WinkelwagenImpl implements Winkelwagen, Serializable{
 
 	@Override
 	public void addBestelbonLijn(BestelbonLijn bestelbonLijn) {
-	  for(BestelbonLijn detail : bestelbonLijnen){
-	    if(detail.getBier().equals(bestelbonLijn.getBier())){
-			detail.setAantal(detail.getAantal() + bestelbonLijn.getAantal()); 
-		 } //indien dit bier reeds in winkelwagen wordt het aantal opgeteld
+	  for(BestelbonLijn lijn : bestelbonLijnen){
+	    if(lijn.getBier().equals(bestelbonLijn.getBier())){
+			lijn.setAantal(lijn.getAantal() + bestelbonLijn.getAantal()); 
+			lijn.setPrijs();
+		 } //indien dit bier reeds in winkelwagen wordt het aantal opgeteld en prijs aangepast
 	  }
 	  bestelbonLijnen.add(bestelbonLijn);
 	}
 	
 	@Override
-	public void removeRestelbonLijnen() {
+	public void removeBestelbonLijnen() {
 		bestelbonLijnen = null;
 		
 	}
@@ -51,7 +52,4 @@ public class WinkelwagenImpl implements Winkelwagen, Serializable{
 	  }
 		return eindTotaal;
 	}
-
-	
-	
 }

@@ -48,11 +48,11 @@ public class Bier implements Serializable{
 		setPrijs(prijs);
 	}
     
-    public Bier(String naam, Brouwer brouwer, Soort soortNr, BigDecimal alcohol, BigDecimal prijs) {
+    public Bier(String naam, Brouwer brouwer, Soort soort, BigDecimal alcohol, BigDecimal prijs) {
 		setBierNr(bierNr);
 		setNaam(naam);
 		setBrouwer(brouwer);
-		setSoort(soortNr);
+		setSoort(soort);
 		setAlcohol(alcohol);
 		setPrijs(prijs);
 		
