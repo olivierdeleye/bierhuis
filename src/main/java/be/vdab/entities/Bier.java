@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 @Entity
 @Table(name = "bieren")
 public class Bier implements Serializable{
@@ -31,8 +34,10 @@ public class Bier implements Serializable{
 	@JoinColumn(name = "SoortNr")
 	private Soort soort;
 
+	@NumberFormat(style=Style.NUMBER)
 	private BigDecimal alcohol;
 	
+	@NumberFormat(style = Style.NUMBER)
 	private BigDecimal prijs;
 	
 	public Bier() {
@@ -117,7 +122,7 @@ public class Bier implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (prime * result) + (int) (bierNr ^ (bierNr >>> 32));
+		result = (prime * result) + ((alcohol == null) ? 0 : alcohol.hashCode());
 		result = (prime * result) + ((naam == null) ? 0 : naam.hashCode());
 		return result;
 	}
@@ -134,7 +139,11 @@ public class Bier implements Serializable{
 			return false;
 		}
 		Bier other = (Bier) obj;
-		if (bierNr != other.bierNr) {
+		if (alcohol == null) {
+			if (other.alcohol != null) {
+				return false;
+			}
+		} else if (!alcohol.equals(other.alcohol)) {
 			return false;
 		}
 		if (naam == null) {
@@ -146,5 +155,8 @@ public class Bier implements Serializable{
 		}
 		return true;
 	}
+
+
+	
 	
 }

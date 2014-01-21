@@ -18,7 +18,6 @@ public class BierControllerTest {
 	public void setUp(){
 		bierService = Mockito.mock(BierService.class);
 		bierController = new BierController(bierService);
-		Mockito.when(bierService.read(1L)).thenReturn(bier);
 		bierController = new BierController(bierService);
 		
 	}
@@ -26,7 +25,7 @@ public class BierControllerTest {
 	
 	@Test 
 	public void bierControllerVoegtRequestAttribuutBierToe(){
-		Assert.assertEquals(bier, bierController.createForm(1L).getModelMap().get("bier")); 
+		Assert.assertSame(bier, bierController.createForm(1L).getModelMap().get("bier")); 
 	}
 	
 	

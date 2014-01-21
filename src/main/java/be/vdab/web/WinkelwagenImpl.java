@@ -1,55 +1,47 @@
 package be.vdab.web;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-
-import be.vdab.valueobjects.BestelbonLijn;
 
 @Component
 @Scope(value ="session", proxyMode = ScopedProxyMode.INTERFACES)
 public class WinkelwagenImpl implements Winkelwagen, Serializable{
 
 	private static final long serialVersionUID=1L;
-	private Set<BestelbonLijn> bestelbonLijnen;
+	private final Map<Long, Integer> winkelwagenItems;
 	
 	public WinkelwagenImpl(){
-		bestelbonLijnen = new LinkedHashSet<>();
+		winkelwagenItems = new LinkedHashMap<>();
 	}
 	
 	@Override
-	public Set<BestelbonLijn> getBestelbonLijnen() {
-		return bestelbonLijnen;
+	public void itemToevoegen(Long bierNr, Integer aantal) {
+		if(winkelwagenItems.containsKey(bierNr)) {
+			Integer nieuwAantal = winkelwagenItems.get(bierNr) + aantal;
+			winkelwagenItems.remove(bierNr);
+			winkelwagenItems.put(bierNr, nieuwAantal);
+		}//indien dit bier reeds in winkelwagen wordt het aantal opgeteld en prijs aangepast
+		else {
+	      winkelwagenItems.put(bierNr, aantal);
+		}
+	}
+
+    @Override
+	public Map<Long, Integer> getWinkelwagenItems() {
+		return winkelwagenItems;
 	}
 
 	@Override
-	public void addBestelbonLijn(BestelbonLijn bestelbonLijn) {
-	  for(BestelbonLijn lijn : bestelbonLijnen){
-	    if(lijn.getBier().equals(bestelbonLijn.getBier())){
-			lijn.setAantal(lijn.getAantal() + bestelbonLijn.getAantal()); 
-			lijn.setPrijs();
-		 } //indien dit bier reeds in winkelwagen wordt het aantal opgeteld en prijs aangepast
-	  }
-	  bestelbonLijnen.add(bestelbonLijn);
-	}
-	
-	@Override
-	public void removeBestelbonLijnen() {
-		bestelbonLijnen = null;
+	public void removeItems() {
+		winkelwagenItems.clear();
 		
 	}
+    
+    
 	
-    @Override
-	public BigDecimal getEindTotaal() {
-	  BigDecimal eindTotaal = BigDecimal.ZERO;
-	  for(BestelbonLijn bestelbonLijn : bestelbonLijnen){
-		  eindTotaal = eindTotaal.add(bestelbonLijn.getPrijs());
-	  }
-		return eindTotaal;
-	}
 }

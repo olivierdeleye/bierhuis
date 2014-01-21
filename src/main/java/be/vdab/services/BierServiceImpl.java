@@ -1,5 +1,7 @@
 package be.vdab.services;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,13 @@ public class BierServiceImpl implements BierService{
 			bierDAO.save(bier);
 			
 		}
+		
+		@Override
+		public Iterable<Bier> findBierenMetNummers(Set<Long> bierNrs) {
+			
+			return bierDAO.findByBierNrIn(bierNrs);
+		}
+		
 
 		@Override
 		public void delete(long bierNr) {
@@ -52,6 +61,8 @@ public class BierServiceImpl implements BierService{
 		public long count() {
 			return bierDAO.count();
 		}
+
+		
 
 		
 }

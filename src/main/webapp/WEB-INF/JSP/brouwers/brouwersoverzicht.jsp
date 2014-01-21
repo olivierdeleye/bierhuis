@@ -12,7 +12,7 @@
 <jsp:include page="/WEB-INF/JSP/menu.jsp"/>
 <h2><fmt:message key = 'brouwers'/></h2>
 <c:forEach items='${brouwers}' var='brouwer'>
-  <spring:url var='url' value='/brouwers'>
+  <spring:url var='url' value='/brouwers/{brouwerNr}'>
     <spring:param name='brouwerNr' value='${brouwer.brouwerNr}'/>
   </spring:url>
   <ul>

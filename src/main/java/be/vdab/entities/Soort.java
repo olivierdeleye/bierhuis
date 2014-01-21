@@ -27,6 +27,15 @@ public class Soort implements Serializable{
 		
 	}
 
+	public Soort(long soortNr, String naam) {
+		
+	}
+	
+    public Soort (String naam) {
+		
+	}
+	
+	
 	public long getSoortNr() {
 		return soortNr;
 	}

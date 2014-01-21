@@ -109,9 +109,7 @@ public class Brouwer implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = (prime * result) + ((adres == null) ? 0 : adres.hashCode());
-		result = (prime * result) + (int) (brouwerNr ^ (brouwerNr >>> 32));
 		result = (prime * result) + ((naam == null) ? 0 : naam.hashCode());
-		result = (prime * result) + ((omzet == null) ? 0 : omzet.hashCode());
 		return result;
 	}
 
@@ -134,9 +132,6 @@ public class Brouwer implements Serializable{
 		} else if (!adres.equals(other.adres)) {
 			return false;
 		}
-		if (brouwerNr != other.brouwerNr) {
-			return false;
-		}
 		if (naam == null) {
 			if (other.naam != null) {
 				return false;
@@ -144,22 +139,10 @@ public class Brouwer implements Serializable{
 		} else if (!naam.equals(other.naam)) {
 			return false;
 		}
-		if (omzet == null) {
-			if (other.omzet != null) {
-				return false;
-			}
-		} else if (!omzet.equals(other.omzet)) {
-			return false;
-		}
 		return true;
 	}
+
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

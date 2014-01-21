@@ -1,6 +1,8 @@
 package be.vdab.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -38,7 +40,7 @@ public class Bestelbon implements Serializable{
 	
 	@ElementCollection 
 	@CollectionTable(name = "bestelbonlijnen", joinColumns = @JoinColumn(name = "BonNr"))
-	private Set<BestelbonLijn> bestelbonLijnen;
+	private Set<BestelbonLijn> bestelbonLijnen = new LinkedHashSet<>();
 	
 	public Bestelbon() {
 		
@@ -48,11 +50,13 @@ public class Bestelbon implements Serializable{
 		setBonNr(bonNr);
 		setNaam(naam);
 		setAdres(adres);
+		
 	}
 	
 	public Bestelbon(String naam, Adres adres) {
 		setNaam(naam);
 		setAdres(adres);
+		
 	}
 
 	public long getBonNr() {
@@ -79,14 +83,30 @@ public class Bestelbon implements Serializable{
 		this.adres = adres;
 	}
 	
-	
-
 	public Set<BestelbonLijn> getBestelbonLijnen() {
 		return bestelbonLijnen;
 	}
 
 	public void setBestelbonLijnen(Set<BestelbonLijn> bestelbonLijnen) {
 		this.bestelbonLijnen = bestelbonLijnen;
+	}
+	
+
+	public void addBestelbonLijn(BestelbonLijn bestelbonLijn) {
+	   bestelbonLijnen.add(bestelbonLijn);
+	}
+	
+    public void removeBestelbonLijnen() {
+		bestelbonLijnen = null;
+		
+	}
+	
+	public BigDecimal getEindTotaal() {
+	 BigDecimal eindTotaal = BigDecimal.ZERO;
+		for(BestelbonLijn bestelbonLijn : bestelbonLijnen){
+			eindTotaal = eindTotaal.add(bestelbonLijn.getPrijs());
+		}
+	 return eindTotaal;
 	}
 
 	@Override
@@ -98,7 +118,7 @@ public class Bestelbon implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = (prime * result) + (int) (bonNr ^ (bonNr >>> 32));
+		result = (prime * result) + ((adres == null) ? 0 : adres.hashCode());
 		result = (prime * result) + ((naam == null) ? 0 : naam.hashCode());
 		return result;
 	}
@@ -115,7 +135,11 @@ public class Bestelbon implements Serializable{
 			return false;
 		}
 		Bestelbon other = (Bestelbon) obj;
-		if (bonNr != other.bonNr) {
+		if (adres == null) {
+			if (other.adres != null) {
+				return false;
+			}
+		} else if (!adres.equals(other.adres)) {
 			return false;
 		}
 		if (naam == null) {
@@ -127,4 +151,10 @@ public class Bestelbon implements Serializable{
 		}
 		return true;
 	}
+
+
+	
+	
+
+
 }

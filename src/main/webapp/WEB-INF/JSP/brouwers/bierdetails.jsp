@@ -14,18 +14,18 @@
 <h2>${bier.naam}</h2>
 <dl>
  <dt>Alcohol</dt>
- <dd><fmt:formatNumber value='${bier.alcohol}' minFractionDigits='0'/>&nbsp;&#37;</dd>
+ <dd><spring:eval expression='bier.alcohol' />&nbsp;&#37;</dd>
  <dt>Prijs</dt>
- <dd><fmt:formatNumber value='${bier.prijs}' minFractionDigits='0'/>&nbsp;&euro;</dd>
+ <dd><spring:eval expression='bier.prijs' /></dd>
  <dt>Soort</dt>
  <dd>${bier.soort.naam}</dd>
  <dt>Brouwer</dt>
  <dd>${bier.brouwer.naam}</dd>
 </dl><br/>
 <br/>
-<c:url value='/bestelling/toevoegen' var='url'>
- <c:param name='bierNr' value='${bier.bierNr}'/>
-</c:url>
+<spring:url value='/bestelling/toevoegen/{bierNr}' var='url'>
+ <spring:param name='bierNr' value='${bier.bierNr}'/>
+</spring:url>
 <form:form action='${url}' method='post' commandName='aantalForm' id='aantalForm'>
 <form:hidden path='bierNr' value='${bier.bierNr}'/>
 <form:label path='aantal'><b>Aantal</b>

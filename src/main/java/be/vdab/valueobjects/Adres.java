@@ -34,7 +34,7 @@ public class Adres implements Serializable {
 	
   }
   
-  public Adres(String straat,String huisNr,Integer postcode,String gemeente) {
+  public Adres(String straat,String huisNr, Integer postcode, String gemeente) {
    this.straat = straat;
    this.huisNr = huisNr;
    this.postcode = postcode;

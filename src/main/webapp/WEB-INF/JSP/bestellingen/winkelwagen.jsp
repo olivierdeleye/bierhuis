@@ -6,14 +6,14 @@
 <!DOCTYPE HTML>
 <html lang="${pageContext.response.locale.language}">
 <head>
- <title><fmt:message key='winkelwagen' /></title>
+ <title><fmt:message key='bestelbonlijnen' /></title>
  <link rel='stylesheet' href='${pageContext.servletContext.contextPath}/styles/default.css'/>
 </head>
 <body>
 <jsp:include page="/WEB-INF/JSP/menu.jsp"/>
 <h2><fmt:message key='winkelwagen' /></h2>
 <c:choose>
-<c:when test="${not empty winkelwagen.bestelbonLijnen}">
+<c:when test="${not empty bestelbon.bestelbonLijnen}">
  <table>
    <thead>
      <tr>
@@ -21,19 +21,19 @@
      </tr>
     </thead>
      <tbody>
-     <c:forEach var='bestelbonLijn' items='${winkelwagen.bestelbonLijnen}'>
+     <c:forEach var='bestelbonLijn' items='${bestelbon.bestelbonLijnen}'>
       <tr>
        <td>${bestelbonLijn.bier.naam}</td>
-       <td class='right'><fmt:formatNumber value='${bestelbonLijn.bier.prijs}' groupingUsed='false' minFractionDigits='0'/></td>
+       <td class='right'><spring:eval expression='bestelbonLijn.bier.prijs' /></td>
        <td class='right'>${bestelbonLijn.aantal}</td>
-       <td class='right'><fmt:formatNumber value='${bestelbonLijn.prijs}' groupingUsed='false' minFractionDigits="0"/></td>
+       <td class='right'><spring:eval expression='bestelbonLijn.prijs' /></td>
      </tr>
     </c:forEach>
     <tr>
      <td></td>
      <td></td>
      <td></td>
-     <td>Totaal: <fmt:formatNumber value='${winkelwagen.eindTotaal}' groupingUsed='false' minFractionDigits='0'/></td>
+     <td>Totaal: &euro; <fmt:formatNumber value='${bestelbon.eindTotaal}' groupingUsed='false' minFractionDigits='0'/></td>
     </tr>
    </tbody>
  </table>
@@ -52,7 +52,7 @@
 <form:label path='adres.postcode'><b>Postcode</b>
 <form:errors path='adres.postcode' cssClass='fout'/>
 </form:label>
-<form:input path='adres.postcode' type='number'/>
+<form:input path='adres.postcode'/>
 <form:label path='adres.gemeente'><b>Gemeente</b>
 <form:errors path='adres.gemeente' cssClass='fout'/>
 </form:label>

@@ -1,14 +1,11 @@
 package be.vdab.web;
 
-import java.math.BigDecimal;
-import java.util.Set;
-
-import be.vdab.valueobjects.BestelbonLijn;
+import java.util.Map;
 
 public interface Winkelwagen {
 
-	Set<BestelbonLijn> getBestelbonLijnen();
-	void addBestelbonLijn(BestelbonLijn bestelbonLijn);
-	void removeBestelbonLijnen();
-	BigDecimal getEindTotaal();
+	Map<Long, Integer> getWinkelwagenItems();
+	void itemToevoegen(Long bierNr, Integer aantal);
+	void removeItems();
+
 }

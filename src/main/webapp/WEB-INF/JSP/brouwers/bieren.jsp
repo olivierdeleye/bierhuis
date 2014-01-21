@@ -12,7 +12,7 @@
 <jsp:include page="/WEB-INF/JSP/menu.jsp"/>
 <h2>${brouwer.naam} (${brouwer.adres.gemeente})</h2>
 <c:forEach items='${brouwer.bieren}' var='bier'>
-  <spring:url var='url' value='/bieren'>
+  <spring:url var='url' value='/bieren/{bierNr}'>
     <spring:param name='bierNr' value='${bier.bierNr}'/>
   </spring:url>
   <ul>

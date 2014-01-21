@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import be.vdab.entities.Bier;
 
 @Embeddable
@@ -21,6 +24,7 @@ public class BestelbonLijn implements Serializable{
 	private Integer aantal;
 
 	@Transient
+	@NumberFormat(style = Style.NUMBER)
 	private BigDecimal prijs;
 	
 	public BestelbonLijn() {

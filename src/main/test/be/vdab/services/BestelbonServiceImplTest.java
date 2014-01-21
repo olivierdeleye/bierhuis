@@ -1,5 +1,6 @@
 package be.vdab.services;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -8,15 +9,16 @@ import be.vdab.dao.BestelbonDAO;
 import be.vdab.entities.Bestelbon;
 import be.vdab.valueobjects.Adres;
 
-public class bestelbonServiceImplTest {
+public class BestelbonServiceImplTest {
 
 	private BestelbonService bestelbonService;
+	private BestelbonDAO bestelbonDAO;
 	private Bestelbon bestelbon;
 	
 	@Before 
 	 public void before() { 
 	   bestelbon = new Bestelbon("TestNaam" ,new Adres("Straat", "HuisNr", 1000, "Gemeente")); 
-	   BestelbonDAO bestelbonDAO = Mockito.mock(BestelbonDAO.class);
+	   bestelbonDAO = Mockito.mock(BestelbonDAO.class);
 	   bestelbonService = new BestelbonServiceImpl(bestelbonDAO); 
 	   Mockito.when(bestelbonService.read(1L)).thenReturn(bestelbon);
 	   Mockito.when(bestelbonService.create(bestelbon)).thenReturn(bestelbon);
@@ -24,12 +26,14 @@ public class bestelbonServiceImplTest {
 	
 	@Test
 	public void readBestelbonGeeftEenBestelbonEntityTerug(){
-		bestelbonService.read(1L);
+	    Assert.assertSame(bestelbon, bestelbonService.read(1L));
 	}
 	
+
 	@Test 
 	public void createGeeftEenBestelbonEntityTerug(){
-		bestelbonService.create(bestelbon);
+	    Assert.assertSame(bestelbon, bestelbonService.create(bestelbon));
 	}
+	
 }
 

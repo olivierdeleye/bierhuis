@@ -1,6 +1,7 @@
 package be.vdab.web;
 
-import javax.servlet.http.HttpSession;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,7 +24,6 @@ import be.vdab.valueobjects.BestelbonLijn;
 
 @Controller
 @RequestMapping("/bestelling")
-@SessionAttributes("winkelwagen")
 class BestellingController {
 	
 	private final BierService bierService;
@@ -37,16 +35,20 @@ class BestellingController {
 		this.bierService = bierService;
 		this.bestelbonService = bestelbonService;
 		this.winkelwagen = winkelwagen;
+		
 	}
 	
 	//WINKELWAGEN BESTELLING TOEVOEGEN
-	@RequestMapping(value="toevoegen", method= RequestMethod.POST)
-	public ModelAndView toevoegenWinkelwagen(@RequestParam long bierNr, @Valid AantalForm aantalForm, BindingResult bindingResult){
-		Bier bier = bierService.read(bierNr);
+	@RequestMapping(value="toevoegen/{bierNr}", method= RequestMethod.POST)
+	public ModelAndView toevoegenWinkelwagen(@PathVariable long bierNr, @Valid AantalForm aantalForm, 
+			        BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+		 Bier bier = bierService.read(bierNr);
 		 if (! bindingResult.hasErrors()) {
 			 Integer aantal = aantalForm.getAantal();
-			 winkelwagen.addBestelbonLijn(new BestelbonLijn(bier, aantal));
-			 return new ModelAndView("redirect:/bestelling/winkelwagen");
+			 winkelwagen.itemToevoegen(bierNr, aantal);
+			 ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/winkelwagen");
+			 return modelAndView;
 		 }
 		 ModelAndView modelAndView = new ModelAndView("brouwers/bierdetails");//indien aantal niet correct gevalideerd
 		 modelAndView.addObject("aantalForm", aantalForm);
@@ -54,40 +56,58 @@ class BestellingController {
 		 return modelAndView; 
 	}
 	
-	//LEGE FORM BESTELBON - WINKELWAGEN OP SESSION SCOPE PLAATSEN
+	//LEGE FORM BESTELBON - BESTELBONLIJNEN OP SESSION SCOPE PLAATSEN
 	@RequestMapping(value="winkelwagen", method = RequestMethod.GET)
 	public ModelAndView createBestelbonForm(){
+		Bestelbon bestelbon = new Bestelbon();
+		Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
+		Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
+		if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
+		  for(Bier bier : bieren) {
+			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
+					winkelwagen.getWinkelwagenItems().get(bier.getBierNr())));
+		  }
+		}
+		/**if( ! winkelwagen.getWinkelwagenItems().isEmpty()) { //indien map niet leeg is 
+		 for(Map.Entry<Long, Integer> item : winkelwagen.getWinkelwagenItems().entrySet()) {
+			Bier bier = bierService.read(item.getKey());
+			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, item.getValue()));
+		 }**/
 		ModelAndView modelAndView = new ModelAndView("bestellingen/winkelwagen");
-		modelAndView.addObject("winkelwagen", winkelwagen); //winkelwagen op SESSION SCOPE plaatsen
-		modelAndView.addObject("bestelbon", new Bestelbon());
+		modelAndView.addObject("bestelbon", bestelbon);
 		return modelAndView;
 	}
 	
-    //BESTELBON BEVESTIGEN (CREATE BESTELBON)
+    //BESTELBON BEVESTIGEN (CREATE)
 	@RequestMapping(value="bevestigen", method= RequestMethod.POST)
 	public ModelAndView createBestelbon(@Valid Bestelbon bestelbon, BindingResult bindingResult, 
 			  RedirectAttributes redirectAttributes){
-		 if (! bindingResult.hasErrors()) {
-		   bestelbon.setBestelbonLijnen(winkelwagen.getBestelbonLijnen());
-		   Bestelbon toegevoegdeBestelbon = (Bestelbon)bestelbonService.create(bestelbon);
+		Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
+		Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
+		for(Bier bier : bieren) {
+			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
+					winkelwagen.getWinkelwagenItems().get(bier.getBierNr())));
+		}
+		/**for(Map.Entry<Long, Integer> item : winkelwagen.getWinkelwagenItems().entrySet()) {
+			Bier bier = bierService.read(item.getKey());
+			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, item.getValue()));
+		}**/
+		if (! bindingResult.hasErrors()) {
+		   Bestelbon toegevoegdeBestelbon = bestelbonService.create(bestelbon);
 		   ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/bevestigd");
-		   winkelwagen.removeBestelbonLijnen(); // MANUEEL BESTELLIJNEN OP NULL DAAR SESSION SETCOMPLETE NIET WERKT
+		   winkelwagen.removeItems(); // MANUEEL WINKELWAGEN MAP OP NULL 
 		   redirectAttributes.addAttribute("bestelbonNr", toegevoegdeBestelbon.getBonNr());
 		   return modelAndView;
 		 }//indien form niet correct gevalideerd
 		 ModelAndView modelAndView = new ModelAndView("bestellingen/winkelwagen");
 		 modelAndView.addObject("bestelbon", bestelbon);
-		 //modelAndView.addObject("winkelwagen", winkelwagen); // niet nodig daar die op SESSION SCOPE staat
 		 return modelAndView; 
 	} 
 	
 	//BESTELBON BEVESTIGD
-	@RequestMapping(value="bevestigd", method= RequestMethod.GET)
-	public ModelAndView bestelbonBevestigd(@RequestParam long bestelbonNr, HttpSession session, SessionStatus sessionStatus){
-		//session.removeAttribute("winkelwagen"); //WERKT NIET !!!
-		//session.invalidate(); //WERKT NIET !!!
-		sessionStatus.setComplete(); //WERKT NIET !!!
-		return new ModelAndView("bestellingen/bevestigd","bestelbonNr", bestelbonNr);
+	@RequestMapping(value="bevestigd", method= RequestMethod.GET ,params = "bestelbonNr")
+	public String bestelbonBevestigd(){
+		return "bestellingen/bevestigd";//,"bestelbonNr", bestelbonNr);
 	}
 
 	//VALIDATIE INVOERVAKKEN VANTOTPOSTCODE
