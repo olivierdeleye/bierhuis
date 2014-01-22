@@ -60,14 +60,16 @@ class BestellingController {
 	@RequestMapping(value="winkelwagen", method = RequestMethod.GET)
 	public ModelAndView createBestelbonForm(){
 		Bestelbon bestelbon = new Bestelbon();
-		Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
-		Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
-		if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
-		  for(Bier bier : bieren) {
-			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
+		if(! winkelwagen.getWinkelwagenItems().isEmpty()){
+		  Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
+		  Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
+		  if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
+		    for(Bier bier : bieren) {
+			  bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
 					winkelwagen.getWinkelwagenItems().get(bier.getBierNr())));
+		    }
 		  }
-		}
+	    }
 		/**if( ! winkelwagen.getWinkelwagenItems().isEmpty()) { //indien map niet leeg is 
 		 for(Map.Entry<Long, Integer> item : winkelwagen.getWinkelwagenItems().entrySet()) {
 			Bier bier = bierService.read(item.getKey());
