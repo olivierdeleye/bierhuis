@@ -60,21 +60,17 @@ class BestellingController {
 	@RequestMapping(value="winkelwagen", method = RequestMethod.GET)
 	public ModelAndView createBestelbonForm(){
 		Bestelbon bestelbon = new Bestelbon();
-		if(! winkelwagen.getWinkelwagenItems().isEmpty()){
-		  Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
-		  Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
-		  if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
-		    for(Bier bier : bieren) {
-			  bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
+
+		if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
+			Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
+			Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
+		  for(Bier bier : bieren) {
+			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
+
 					winkelwagen.getWinkelwagenItems().get(bier.getBierNr())));
 		    }
 		  }
-	    }
-		/**if( ! winkelwagen.getWinkelwagenItems().isEmpty()) { //indien map niet leeg is 
-		 for(Map.Entry<Long, Integer> item : winkelwagen.getWinkelwagenItems().entrySet()) {
-			Bier bier = bierService.read(item.getKey());
-			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, item.getValue()));
-		 }**/
+	    
 		ModelAndView modelAndView = new ModelAndView("bestellingen/winkelwagen");
 		modelAndView.addObject("bestelbon", bestelbon);
 		return modelAndView;
@@ -83,27 +79,29 @@ class BestellingController {
     //BESTELBON BEVESTIGEN (CREATE)
 	@RequestMapping(value="bevestigen", method= RequestMethod.POST)
 	public ModelAndView createBestelbon(@Valid Bestelbon bestelbon, BindingResult bindingResult, 
-			  RedirectAttributes redirectAttributes){
-		Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
-		Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
-		for(Bier bier : bieren) {
+			RedirectAttributes redirectAttributes){
+	   if(! winkelwagen.getWinkelwagenItems().isEmpty()) {
+		 Set<Long> bierNrs = winkelwagen.getWinkelwagenItems().keySet();
+		 Iterable<Bier> bieren = bierService.findBierenMetNummers(bierNrs);
+		 for(Bier bier : bieren) {
 			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, 
 					winkelwagen.getWinkelwagenItems().get(bier.getBierNr())));
-		}
+		 }
+	   }
 		/**for(Map.Entry<Long, Integer> item : winkelwagen.getWinkelwagenItems().entrySet()) {
 			Bier bier = bierService.read(item.getKey());
 			bestelbon.addBestelbonLijn(new BestelbonLijn(bier, item.getValue()));
 		}**/
-		if (! bindingResult.hasErrors()) {
+	   if (! bindingResult.hasErrors()) {
 		   Bestelbon toegevoegdeBestelbon = bestelbonService.create(bestelbon);
 		   ModelAndView modelAndView = new ModelAndView("redirect:/bestelling/bevestigd");
 		   winkelwagen.removeItems(); // MANUEEL WINKELWAGEN MAP OP NULL 
 		   redirectAttributes.addAttribute("bestelbonNr", toegevoegdeBestelbon.getBonNr());
 		   return modelAndView;
-		 }//indien form niet correct gevalideerd
-		 ModelAndView modelAndView = new ModelAndView("bestellingen/winkelwagen");
-		 modelAndView.addObject("bestelbon", bestelbon);
-		 return modelAndView; 
+	    }//indien form niet correct gevalideerd
+		ModelAndView modelAndView = new ModelAndView("bestellingen/winkelwagen");
+		modelAndView.addObject("bestelbon", bestelbon);
+		return modelAndView; 
 	} 
 	
 	//BESTELBON BEVESTIGD
