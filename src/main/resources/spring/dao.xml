@@ -18,7 +18,7 @@
    <property name='driverClass' value='${database.driverClass}'/>
    <property name='jdbcUrl' value='${database.jdbcUrl}'/>
    <property name='user' value='${database.user}'/>
-   <property name='password' value='${database.password}'/>
+   <property name='password' value=''/>
    <property name='maxIdleTime' value='${database.maxIdleTime}'/>
   </bean>
   <!--<jee:jndi-lookup id='dataSource' jndi-name='jdbc/beerhouse'/>-->
